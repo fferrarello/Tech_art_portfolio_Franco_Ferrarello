@@ -1,0 +1,11 @@
+{
+    "pose": {
+        "rotation_step": 10,
+        "random_range": 20
+    },
+    "debug": {
+        "check_history": true,
+        "check_constraints": true,
+        "check_isolated": true
+    }
+}

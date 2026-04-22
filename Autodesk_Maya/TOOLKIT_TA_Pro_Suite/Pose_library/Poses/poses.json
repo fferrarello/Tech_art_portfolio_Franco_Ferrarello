@@ -1,0 +1,9 @@
+{
+    "name": "attack_pose",
+    "tags": ["attack", "aggressive"],
+    "controls": {
+        "arm_L_ctrl": [0, 0, 60],
+        "arm_R_ctrl": [0, 0, -60],
+        "spine_ctrl": [10, 0, 0]
+    }
+}
