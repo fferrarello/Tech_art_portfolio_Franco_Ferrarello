@@ -1,534 +1,193 @@
-\# 🛠️ TA Dashboard PRO+
+# 🛠️ TA Dashboard (AAA Asset Validator)
 
+Herramienta avanzada para **Autodesk Maya** enfocada en validación automática de assets 3D bajo estándares AAA.
 
+Diseñada para artistas técnicos (TA), modeladores y riggers que necesitan asegurar calidad, consistencia y limpieza en sus escenas.
 
-\### AAA Asset Validator for Autodesk Maya
+---
 
+## 🚀 Features
 
+### 🔍 Validaciones automáticas
 
-<p align="center">
+* ✔️ Construction History
+* ✔️ Freeze Transforms
+* ✔️ Non-Manifold Geometry
+* ✔️ Lamina Faces
+* ✔️ Naming Convention (geo_, grp_, jnt_)
+* ✔️ Estructura de rig (CHARACTER)
+* ✔️ Jerarquía de grupos (geo_grp / rig_grp)
+* ✔️ Parenting correcto
+* ✔️ SkinCluster check
 
-&#x20; <img src="https://img.shields.io/badge/Maya-2022%2B-blue?style=for-the-badge\&logo=autodesk" />
+---
 
-&#x20; <img src="https://img.shields.io/badge/Python-3.x-yellow?style=for-the-badge\&logo=python" />
+### 🎨 Highlight visual en viewport
 
-&#x20; <img src="https://img.shields.io/badge/Status-Production%20Ready-success?style=for-the-badge" />
+* Coloreado automático por tipo de error
+* Identificación rápida de problemas en escena
+* Limpieza de highlights con un click
 
-&#x20; <img src="https://img.shields.io/badge/Tool-Type%20TA%20Pipeline-critical?style=for-the-badge" />
+---
 
-</p>
+### ⚡ Fixes automáticos
 
+* Fix individual por categoría
+* Fix masivo (`FIX ALL`)
+* Renombrado inteligente basado en tipo de nodo
+* Corrección de joints automáticamente
 
+---
 
-<p align="center">
+### 🧠 Inteligencia de Asset Type
 
-&#x20; <b>Validación automática de assets 3D con estándares AAA</b><br>
+* **PROP**
+* **CHARACTER**
 
-&#x20; Optimizado para Technical Artists, Modelers y Riggers
+El sistema adapta validaciones automáticamente según el tipo de asset.
 
-</p>
+---
 
+### 🖥️ UI Profesional
 
+* Dashboard organizado por categorías
+* Estados visuales (OK / Issues)
+* Selección + focus automático en viewport
+* Sistema de listas interactivas
 
-\---
+---
 
+## 📦 Instalación
 
-
-\## 🎬 Preview
-
-
-
-<p align="center">
-
-&#x20; <img src="https://via.placeholder.com/900x500.png?text=TA+Dashboard+UI+Preview" width="80%"/>
-
-</p>
-
-
-
-<p align="center">
-
-&#x20; <img src="https://via.placeholder.com/900x400.png?text=Viewport+Highlight+System" width="80%"/>
-
-</p>
-
-
-
-\---
-
-
-
-\## ⚡ Demo (GIF)
-
-
-
-<p align="center">
-
-&#x20; <img src="https://via.placeholder.com/800x400.gif?text=Validation+%2B+Auto+Fix+%2B+Highlight" width="80%"/>
-
-</p>
-
-
-
-\---
-
-
-
-\## 🚀 Features
-
-
-
-\### 🔍 Smart Validation System
-
-
-
-\* Construction History check
-
-\* Freeze Transform validation
-
-\* Non-Manifold detection
-
-\* Lamina Faces detection
-
-\* Naming convention enforcement
-
-\* Rig validation (Character mode)
-
-\* Parenting \& hierarchy checks
-
-\* SkinCluster verification
-
-
-
-\---
-
-
-
-\### 🎨 Visual Debug (Viewport Highlight)
-
-
-
-| Error Type   | Color    |
-
-| ------------ | -------- |
-
-| History      | Verde    |
-
-| Freeze       | Celeste  |
-
-| Non-Manifold | Rojo     |
-
-| Lamina       | Rosa     |
-
-| Naming       | Azul     |
-
-| Rig Issues   | Amarillo |
-
-
-
-✔ Highlight automático por categoría
-
-✔ Limpieza instantánea
-
-✔ Identificación visual ultra rápida
-
-
-
-\---
-
-
-
-\### ⚡ Auto-Fix System
-
-
-
-\* Fix individual por categoría
-
-\* Fix masivo (`FIX ALL`)
-
-\* Auto-renaming inteligente
-
-\* Corrección de joints
-
-\* Limpieza completa de escena
-
-
-
-\---
-
-
-
-\### 🧠 Adaptive Asset Intelligence
-
-
-
-El sistema cambia automáticamente según el tipo de asset:
-
-
-
-| Tipo      | Validaciones    |
-
-| --------- | --------------- |
-
-| PROP      | Básicas         |
-
-| CHARACTER | Avanzadas + Rig |
-
-
-
-\---
-
-
-
-\### 🖥️ UI Dashboard (AAA Style)
-
-
-
-\* Panel dividido tipo producción
-
-\* Feedback visual (OK / Issues)
-
-\* Listas interactivas
-
-\* Doble click → Focus + Isolate
-
-\* Highlight dinámico
-
-
-
-\---
-
-
-
-\## 📦 Instalación
-
-
-
-\### Método rápido
-
-
-
-1\. Abrir \*\*Script Editor\*\* en Maya
-
-2\. Pegar el código
-
-3\. Ejecutar
-
-
-
-\---
-
-
-
-\### Método recomendado (modular)
-
-
+1. Copiar el script en el Script Editor de Maya (Python)
+2. Ejecutar el archivo
 
 ```python
-
-\# guardar como ta\_dashboard\_pro.py
-
-import ta\_dashboard\_pro
-
+import ta_dashboard_pro
 ```
 
+O simplemente pegar el código y correrlo.
 
+---
 
-\---
+## ▶️ Uso
 
+1. Abrir la herramienta (se ejecuta automáticamente)
+2. Seleccionar tipo de asset:
 
+   * `PROP`
+   * `CHARACTER`
+3. Presionar:
 
-\## ▶️ Uso
+### 🔎 VALIDATE
 
+Ejecuta todas las validaciones
 
+### 🎨 HIGHLIGHT ALL ISSUES
 
-\### 1. Seleccionar tipo de asset
+Colorea todos los errores en viewport
 
+### 🧹 CLEAR HIGHLIGHT
 
+Limpia los colores
 
-\* `PROP`
+### 🔧 FIX SELECTED
 
-\* `CHARACTER`
+Corrige elementos seleccionados
 
+### ⚡ FIX ALL
 
+Aplica correcciones globales:
 
-\---
+* Borra history
+* Freeze transforms
+* Centra pivots
+* Renombra correctamente
 
+### 🔁 REVERT
 
+Restaura nombres originales (si fueron modificados)
 
-\### 2. Ejecutar validación
+---
 
-
-
-```
-
-VALIDATE
-
-```
-
-
-
-\---
-
-
-
-\### 3. Visualizar errores
-
-
-
-```
-
-HIGHLIGHT ALL ISSUES
-
-```
-
-
-
-\---
-
-
-
-\### 4. Corregir
-
-
-
-```
-
-FIX SELECTED
-
-FIX ALL
-
-```
-
-
-
-\---
-
-
-
-\### 5. Revertir cambios
-
-
-
-```
-
-REVERT SELECTED
-
-REVERT ALL
-
-```
-
-
-
-\---
-
-
-
-\## 📁 Naming Convention
-
-
+## 📁 Naming Convention
 
 | Tipo  | Prefijo |
-
 | ----- | ------- |
+| Mesh  | `geo_`  |
+| Grupo | `grp_`  |
+| Joint | `jnt_`  |
 
-| Mesh  | `geo\_`  |
+---
 
-| Grupo | `grp\_`  |
-
-| Joint | `jnt\_`  |
-
-
-
-\---
-
-
-
-\## 🧩 Estructura esperada (CHARACTER)
-
-
+## 🧩 Estructura esperada (CHARACTER)
 
 ```
-
-rig\_grp
-
-&#x20;├── jnt\_root
-
-&#x20;└── ...
-
-
-
-geo\_grp
-
-&#x20;└── meshes
-
+rig_grp
+ ├── jnt_root
+ └── ...
+ 
+geo_grp
+ └── meshes
 ```
 
+---
 
+## ⚠️ Consideraciones
 
-\---
+* La herramienta usa `maya.cmds`
+* Pensada para pipelines AAA
+* Algunos fixes pueden ser destructivos (ej: delete history)
+* Se recomienda trabajar sobre copias de escena
 
+---
 
+## 🧪 Validaciones incluidas
 
-\## 🧪 Validaciones
+| Categoría     | Descripción                              |
+| ------------- | ---------------------------------------- |
+| History       | Detecta construction history innecesario |
+| Freeze        | Verifica transforms no congelados        |
+| NonManifold   | Geometría inválida                       |
+| Lamina        | Caras duplicadas                         |
+| Naming        | Convenciones incorrectas                 |
+| Joints        | Naming incorrecto                        |
+| Rig Structure | Estructura faltante                      |
+| Groups        | Grupos obligatorios                      |
+| Parenting     | Jerarquía incorrecta                     |
+| Skin          | Falta de skinning                        |
 
+---
 
+## 💡 Roadmap (ideas futuras)
 
-| Categoría     | Descripción            |
+* Export validator (FBX/engine-ready)
+* Integración con Unreal / Unity
+* Reportes automáticos (JSON / HTML)
+* Batch validation
+* UI con Qt / PySide2
 
-| ------------- | ---------------------- |
+---
 
-| History       | History innecesario    |
+## 👨‍💻 Autor
 
-| Freeze        | Transform no congelado |
+Herramienta desarrollada para optimizar workflows de producción 3D en Maya.
 
-| NonManifold   | Geometría inválida     |
+---
 
-| Lamina        | Caras duplicadas       |
+## 📜 Licencia
 
-| Naming        | Naming incorrecto      |
+Libre para uso educativo y profesional.
+Modificar bajo tu propio riesgo 😄
 
-| Joints        | Prefijo incorrecto     |
+---
 
-| Rig Structure | Estructura faltante    |
+## 🔥 Preview
 
-| Groups        | Grupos obligatorios    |
+> UI tipo dashboard + validación en tiempo real + highlight por error
 
-| Parenting     | Jerarquía incorrecta   |
+---
 
-| Skin          | Falta de skinning      |
+## ⭐ Si te sirve...
 
-
-
-\---
-
-
-
-\## ⚠️ Consideraciones
-
-
-
-\* Usa `maya.cmds`
-
-\* Algunos fixes son destructivos
-
-\* Recomendado trabajar sobre copias
-
-\* Pensado para pipelines AAA
-
-
-
-\---
-
-
-
-\## 🧠 Arquitectura
-
-
-
-```
-
-Core
-
-&#x20;├── Validation Engine
-
-&#x20;├── Fix Engine
-
-&#x20;├── Highlight System
-
-&#x20;└── UI System
-
-
-
-State
-
-&#x20;├── TA\_RESULTS
-
-&#x20;├── ASSET\_TYPE
-
-&#x20;└── HIGHLIGHTED
-
-```
-
-
-
-\---
-
-
-
-\## 🔮 Roadmap
-
-
-
-\* \[ ] Export Validator (FBX Ready)
-
-\* \[ ] Unreal / Unity Integration
-
-\* \[ ] Report Generator (JSON / HTML)
-
-\* \[ ] Batch Processing
-
-\* \[ ] PySide2 UI Upgrade
-
-\* \[ ] Scene Scoring System (AAA rating)
-
-
-
-\---
-
-
-
-\## 👨‍💻 Autor
-
-
-
-Desarrollado para optimizar workflows de producción en Maya.
-
-
-
-\---
-
-
-
-\## 📜 Licencia
-
-
-
-MIT / Libre uso profesional y educativo
-
-
-
-\---
-
-
-
-\## 🔥 Bonus
-
-
-
-> Este tipo de herramientas es estándar en estudios AAA para:
-
-
-
-\* Control de calidad
-
-\* Automatización de pipeline
-
-\* Reducción de errores humanos
-
-\* Preparación para engine (game-ready)
-
-
-
-\---
-
-
-
-<p align="center">
-
-&#x20; <b>TA Dashboard PRO+ — Pipeline Ready 🚀</b>
-
-</p>
-
-
-
+Dale una estrella al repo y compartilo 🚀
