@@ -78,29 +78,89 @@ Piernas	35–40%
 
 Silueta clara > detalle interno
 
-Evitar tangentes visuales
-
 Priorizar lectura a distancia
+
+No variar altura entre personajes
+Definir un "anchor pixel" (centro inferior)
+
+La base del personaje siempre cae en la misma línea Y
+
+Evitar:
+Personajes flotando
+Desfase con sombras o tiles
+Problemas de colisión visual
+tangentes visuales
+
+⚖️ Peso Visual
+
+Distribución de detalle dentro del sprite:
+
+Cabeza → máxima prioridad
+Torso → secundaria
+Props / armas → acento
+Piernas → mínimo detalle
+Reglas:
+60% del detalle en la mitad superior
+Evitar ruido visual en piernas
+Priorizar silueta sobre textura
+Objetivo:
+
+Garantizar lectura inmediata incluso en movimiento
 
 🎨 Paleta de Color
 
 🎯 Reglas
 
-Máximo recomendado: 12–16 colores por sprite
+12–16 colores → por personaje completo (no por sprite individual)
+Sprite individual ideal: 8–12 colores
 
-Separar:
+🎯 Distribución recomendada
+40% tonos medios (base)
+30% sombras
+20% highlights
+10% acentos
+🌈 Saturación y valores
+Sombras → menos saturadas, ligeramente más frías
+Highlights → más cálidos y levemente más saturados
+Evitar:
+Negros puros (#000)
+Blancos puros (#FFF)
+📌 Value separation (clave real)
 
-Base
+Entre luz y sombra debe haber:
 
-Sombra
-
-Highlight
+mínimo 2 steps de valor
+ideal: 3 niveles (base → mid shadow → deep shadow)
 
 💡 Iluminación
 
-Luz principal: arriba-izquierda
+☀️ Luz principal
+Arriba-izquierda (consistente globalmente)
+🌗 Luz secundaria (opcional)
+SFX o entorno
+🧠 Reglas avanzadas
+1. Subsurface Scattering (pixel-friendly)
+Solo en:
+piel
+orejas
+Aplicación:
+1px cálido en bordes iluminados
+2. Reflexión (materiales)
+Metal:
+contraste alto
+highlights duros
+Tela:
+transición suave
+Cuero:
+midtones dominantes
+3. Múltiples luces
+Regla:
+1 luz dominante
+1 secundaria como acento
 
-Sombra: abajo-derecha
+👉 Nunca dividir el sprite en dos sistemas de luz iguales
+
+Sombra: Las zonas en sombra se orientan hacia abajo-derecha en relación a la luz principal.
 
 🌈 Contraste
 
@@ -108,30 +168,70 @@ Alto contraste en bordes exteriores
 
 Bajo contraste en detalles internos
 
+✨ SFX Visuales (Partículas, Glows, FX)
+📌 Regla general
+
+Los efectos NO rompen la legibilidad del sprite base.
+
+🔥 Tipos permitidos
+Partículas (polvo, chispas)
+Glow suave (magia, UI feedback)
+Trails (movimiento)
+🎨 Reglas técnicas
+Máximo: 2–4 colores adicionales por efecto
+Alpha limitado (evitar blur excesivo)
+Evitar gradients suaves → usar dithering o steps
+💡 Integración con luz
+El SFX puede ser una segunda fuente de luz
+Override permitido SOLO en:
+Highlights
+Bordes cercanos al efecto
+
 ✏️ Lineart
 
-Grosor: 1px
+Base: 1px
+PERO usar lineart selectivo adaptativo
 
 Color: no usar negro puro (#000000)
 
 Preferido: tonos oscuros del mismo color base
 
-Lineart selectivo (no encerrar todo)
+🎯 Excepciones (muy importante)
+
+En zonas pequeñas:
+
+Reducir contraste en vez de grosor
+O directamente eliminar línea interna
+
+👉 “0.5px efectivo” en pixel art =
+simularlo con color, no con geometría
+📌 Jerarquía
+Contorno exterior → más oscuro
+Detalles internos → más suaves o sin línea
 
 🧩 Volumen y Sombreado
 
 📐 Técnica
 
-Cel shading simplificado
+Cel shading
 
 Máximo:
 
-1 tono base
+1 Base
+1 Mid shadow
+1 Core shadow
+1 Highlight
 
-1 sombra
+👉 Opcional:
 
-1 highlight
+Bounce light (muy sutil)
+📊 Value jumps recomendados
+Base → mid: -15% value
+Mid → core: -20–25%
+Base → highlight: +15%
+📌 Regla clave
 
+Evitar banding → variar clusters de píxeles
 
 
 🧭 Orientación (3/4)
@@ -161,14 +261,34 @@ Talones
 Mantener volumen idéntico entre vistas
 
 🚶 Animación
-FPS recomendado
-6–12 fps
-Ciclos básicos
-Idle
-Walk (4–6 frames)
-Run (6–8 frames)
-📌 Regla clave
-Movimiento claro > fluidez extrema
+Walk cycle (4–6 frames)
+NO linear
+Usar:
+Contact → más tiempo
+Passing → más rápido
+
+👉 Distribución ejemplo (6 frames):
+
+1 (contact) → hold
+2
+3 (passing) → rápido
+4
+5 (contact) → hold
+6
+📈 Easing
+Micro-ease in/out en extremos
+Evitar spacing uniforme
+
+🎞️ Estabilidad de Volumen en Animación
+
+Durante la animación:
+
+La masa del personaje debe mantenerse consistente
+Evitar cambios de tamaño frame a frame
+Mantener alineación del anchor pixel
+Regla:
+
+El personaje no debe "respirar" o cambiar volumen involuntariamente
 
 🧱 Tiles y Entorno
 
@@ -214,7 +334,16 @@ Formato: PNG
 
 Fondo: transparente
 
-Escala: 1x (no upscale)
+Trabajar en:
+1x nativo (recomendado)
+o 2x solo si se domina reducción
+⚙️ Si trabajás en 2x:
+Reducir con:
+nearest neighbor ONLY
+Cleanup manual obligatorio después
+🚫 Evitar
+Escalados automáticos finales
+Downscale sin revisión
 
 Sin compresión con pérdida
 
@@ -225,4 +354,11 @@ Color base
 Sombra
 Highlights
 Polish (cleanup)
+
+🚫 Errores Comunes
+❌ Overdetail en 32x32
+❌ Mezclar perspectivas
+❌ Luz inconsistente
+❌ Anti-aliasing automático
+❌ Colores “lavados”
 
