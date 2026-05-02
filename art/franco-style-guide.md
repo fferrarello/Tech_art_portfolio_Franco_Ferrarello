@@ -360,5 +360,9 @@ Polish (cleanup)
 ❌ Mezclar perspectivas
 ❌ Luz inconsistente
 ❌ Anti-aliasing automático
+<<<<<<< Updated upstream
 ❌ Colores “lavados”
 
+=======
+❌ Colores “lavados”
+>>>>>>> Stashed changes
