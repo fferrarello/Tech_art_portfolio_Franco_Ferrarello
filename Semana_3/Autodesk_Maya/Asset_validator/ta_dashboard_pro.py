@@ -1,5 +1,5 @@
 # ==========================================
-# TA DASHBOARD PRO+ FINAL (AAA COMPLETE)
+# TA DASHBOARD PRO+ FINAL (AAA COMPLETE FIXED)
 # ==========================================
 
 import maya.cmds as cmds
@@ -24,10 +24,13 @@ def get_mesh_transforms():
             transforms.append(p[0])
     return remove_duplicates(transforms)
 
+def get_clean_name(name):
+    return name.split("  →")[0]
+
 # ------------------------------
 # ASSET TYPE
 # ------------------------------
-def set_asset_type():
+def set_asset_type(*_):
     global ASSET_TYPE
     ASSET_TYPE = cmds.optionMenu("assetTypeMenu", q=True, value=True)
 
@@ -215,23 +218,11 @@ def highlight_all_issues():
 def select_and_frame(obj):
     if not cmds.objExists(obj):
         return
-
     cmds.select(obj, r=True)
-
-    # frame camera
     try:
         cmds.viewFit()
     except:
         pass
-
-    # isolate
-    panel = cmds.getPanel(withFocus=True)
-    if "modelPanel" in panel:
-        try:
-            cmds.isolateSelect(panel, state=1)
-            cmds.isolateSelect(panel, addSelected=True)
-        except:
-            pass
 
 # ------------------------------
 # VALIDATE
@@ -279,18 +270,47 @@ def fix_object(obj, category):
 def fix_selected():
     for cat in TA_RESULTS:
         sel = cmds.textScrollList(cat+"_list", q=True, si=True)
-        if sel:
-            for obj in sel:
-                fix_object(obj.split("  →")[0], cat)
+        if not sel:
+            continue
+
+        for item in sel:
+            obj = item.split("  →")[0]
+            if cmds.objExists(obj):
+                fix_object(obj, cat)
+
     run_validation()
 
 def fix_all():
     for obj in get_mesh_transforms():
-        cmds.delete(obj, ch=True)
-        cmds.makeIdentity(obj, apply=True, t=True, r=True, s=True)
-        cmds.xform(obj, centerPivots=True)
-        fix_naming(obj)
+        if cmds.objExists(obj):
+            cmds.delete(obj, ch=True)
+            cmds.makeIdentity(obj, apply=True, t=True, r=True, s=True)
+            cmds.xform(obj, centerPivots=True)
+            fix_naming(obj)
     run_validation()
+
+# ------------------------------
+# REVERT (FIX)
+# ------------------------------
+def revert_selected():
+    for cat in TA_RESULTS:
+        sel = cmds.textScrollList(cat+"_list", q=True, si=True)
+        if not sel:
+            continue
+
+        for item in sel:
+            obj = item.split("  →")[0]
+            if cmds.objExists(obj):
+                revert_name(obj)
+
+def revert_all():
+    for obj in get_mesh_transforms():
+        if cmds.objExists(obj):
+            revert_name(obj)
+
+    for j in cmds.ls(type="joint") or []:
+        if cmds.objExists(j):
+            revert_name(j)
 
 # ------------------------------
 # UI UPDATE
@@ -325,22 +345,21 @@ def create_ui():
 
     cmds.window("taProWin", title="TA Dashboard PRO+", widthHeight=(520,600))
 
-    cmds.paneLayout(configuration="vertical2")
-
-    # TOP
-    top = cmds.columnLayout(adjustableColumn=True)
+    cmds.columnLayout(adjustableColumn=True)
 
     cmds.text(label="AAA ASSET VALIDATOR", align="center")
 
     cmds.optionMenu("assetTypeMenu", label="Asset Type",
-                    changeCommand=lambda *_: set_asset_type())
+                    changeCommand=set_asset_type)
     cmds.menuItem(label="PROP")
     cmds.menuItem(label="CHARACTER")
 
     cmds.separator(h=10)
 
+    # 🔥 SCROLL + GRID (CLAVE)
     cmds.scrollLayout(height=350)
-    cmds.gridLayout(numberOfColumns=2, cellWidthHeight=(240,120))
+
+    cmds.gridLayout(numberOfColumns=2, cellWidthHeight=(240,130))
 
     def create_section(name):
         cmds.frameLayout(label=name)
@@ -350,10 +369,14 @@ def create_ui():
 
         cmds.textScrollList(
             name+"_list",
-            height=60,
-            selectCommand=lambda *_: highlight_category(name),
-            doubleClickCommand=lambda *_: select_and_frame(
-                cmds.textScrollList(name+"_list", q=True, si=True)[0]
+            height=60,  # 🔥 más chico
+            selectCommand=lambda _, cat=name: highlight_category(cat),
+            doubleClickCommand=lambda _, cat=name: (
+                select_and_frame(
+                    get_clean_name(
+                        cmds.textScrollList(cat+"_list", q=True, si=True)[0]
+                    )
+                ) if cmds.textScrollList(cat+"_list", q=True, si=True) else None
             )
         )
 
@@ -363,23 +386,18 @@ def create_ui():
     sections = ["History","Freeze","NonManifold","Lamina","Naming",
                 "Joints","Rig_Structure","Groups","Parenting","Skin"]
 
-    for s in sections:
-        create_section(s)
+    for name in sections:
+        create_section(name)
 
-    cmds.setParent(top)
-
-    # BOTTOM
-    bottom = cmds.columnLayout(adjustableColumn=True)
+    cmds.setParent("..")  # salir de grid
+    cmds.setParent("..")  # salir de scroll
 
     cmds.separator(h=10)
 
+    # 🔥 BOTONES SIEMPRE VISIBLES
     cmds.button(label="VALIDATE", h=40, command=lambda *_: run_validation())
-
-    cmds.button(label="HIGHLIGHT ALL ISSUES",
-                command=lambda *_: highlight_all_issues())
-
-    cmds.button(label="CLEAR HIGHLIGHT",
-                command=lambda *_: clear_highlight())
+    cmds.button(label="HIGHLIGHT ALL ISSUES", command=lambda *_: highlight_all_issues())
+    cmds.button(label="CLEAR HIGHLIGHT", command=lambda *_: clear_highlight())
 
     cmds.rowLayout(nc=2)
     cmds.button(label="FIX SELECTED", command=lambda *_: fix_selected())
@@ -392,7 +410,6 @@ def create_ui():
     cmds.setParent("..")
 
     cmds.showWindow("taProWin")
-
 # ------------------------------
 # RUN
 # ------------------------------
